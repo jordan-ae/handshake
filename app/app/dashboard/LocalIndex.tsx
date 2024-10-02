@@ -103,7 +103,7 @@ export async function LocalIndex() {
       className={`justify-top flex min-h-screen w-full flex-col items-start gap-8 p-8`}
     >
       <section>
-        <h2 className="text-lg font-semibold">Handshake is running</h2>
+        <h2 className="text-lg font-semibold bg-red-600">Handshake is running</h2>
       </section>
       <main className="flex w-[800px] max-w-full flex-col gap-4">{main}</main>
       <p>
@@ -130,7 +130,7 @@ export interface HandlerInfo {
 }
 
 export async function getSanitizedHandlerInfo(): Promise<HandlerInfo[]> {
-  return options.handlers.map((handler) => {
+  return options.handlers.map((handler: { id: any; provider: { id: any; name: any; }; }) => {
     return {
       id: handler.id,
       provider: {
