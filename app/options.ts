@@ -1,20 +1,23 @@
 import assert from "assert";
-import { HandshakeOptions } from "handshake";
+import { GitHub, HandshakeOptions, LinkedIn, Shopify } from "../handshake";
 
-const ALLOWED_REDIRECT_HOST = process.env.ALLOWED_REDIRECT_HOST || "";
+const ALLOWED_REDIRECT_HOST = process.env.ALLOWED_REDIRECT_HOST || "https://github.com/ubiquity/work.ubq.fi/issues";
 assert(ALLOWED_REDIRECT_HOST, "Specify a value for ALLOWED_REDIRECT_HOST.");
 
 export const options: HandshakeOptions = {
   secret: process.env.SESSION_SECRET!,
   allowedRedirectHosts: [ALLOWED_REDIRECT_HOST],
   handlers: [
-    // TODO add your handlers here...
-    //
-    // Shopify({
-    //   clientId: process.env.SHOPIFY_CLIENT_ID!,
-    //   clientSecret: process.env.SHOPIFY_CLIENT_SECRET!,
-    //   scopes: ["read_orders"],
-    // }),
+    Shopify({
+      clientId: "process.env.SHOPIFY_CLIENT_ID"!,
+      clientSecret: "process.env.SHOPIFY_CLIENT_SECRET"!,
+      scopes: ["read_orders", "write_payment_gateways"],
+    }),
+    GitHub({
+      clientId: "process.env.SHOPIFY_CLIENT_ID"!,
+      clientSecret: "process.env.SHOPIFY_CLIENT_SECRET"!,
+      scopes: ["read_orders"],
+    }),
   ],
   /**
    * This is where you'll handle forwarding the acquired credentials back to
@@ -36,7 +39,7 @@ export const options: HandshakeOptions = {
    * @param handlerId - Identifies the provider that handled this handshake, eg:
    * 'google', 'github', 'amazon-seller' etc.
    */
-  async onSuccess(tokens, handlerId) {
+  async onSuccess(tokens: any, handlerId: any) {
     // TODO: Do something with the tokens.
     console.log(`Received tokens for ${handlerId}`, tokens);
 
